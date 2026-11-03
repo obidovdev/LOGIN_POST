@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <!-- Premium Google Shrifti -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #090A0F; /* Chuqur premium to'q fon */
+            background-image:
+                radial-gradient(at 0% 0%, rgba(212, 175, 55, 0.04) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 255, 255, 0.02) 0px, transparent 50%);
+            color: #E2E8F0;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            position: relative;
+        }
+
+        /* Umumiy Glassmorphism kartalar (Post, Izohlar ro'yxati va Forma) */
+        .post-card, .comment-box, form {
+            background: rgba(18, 20, 29, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 36px;
+            margin-bottom: 24px;
+            box-shadow:
+                0 30px 60px -12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 1px rgba(255, 255, 255, 0.08);
+            transition: border-color 0.4s ease;
+        }
+
+        .post-card:hover, .comment-box:hover, form:hover {
+            border-color: rgba(212, 175, 55, 0.2);
+        }
+
+        /* Post Sarlavhasi */
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        /* Post Matni */
+        .post-card > p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #CBD5E1;
+            margin-bottom: 24px;
+        }
+
+        /* Meta ma'lumotlar (Muallif va sana) */
+        .meta {
+            font-size: 0.85rem;
+            color: #94A3B8;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Tahrirlash va O'chirish tugmalari */
+        .actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .actions a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-edit {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #F8FAFC;
+        }
+
+        .btn-edit:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-delete {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #F87171;
+        }
+
+        .btn-delete:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Izohlar bo'limi */
+        .comment-box h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+
+        .comment-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 16px 0;
+        }
+
+        .comment-item:first-of-type {
+            padding-top: 0;
+        }
+
+        .comment-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .comment-item p {
+            font-size: 0.925rem;
+            color: #E2E8F0;
+            margin-bottom: 6px;
+        }
+
+        .comment-date {
+            font-size: 0.75rem;
+            color: #64748B;
+        }
+
+        /* Izoh yozish formasi */
+        form h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+
+        form p {
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94A3B8;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: #F8FAFC;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: #D4AF37;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.12);
+        }
+
+        /* Yuborish tugmasi */
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #E2C974 0%, #D4AF37 50%, #8A6D1C 100%);
+            border: none;
+            border-radius: 12px;
+            color: #090A0F;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.3);
+            margin-top: 8px;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(212, 175, 55, 0.4);
+            filter: brightness(1.1);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Post Kartasi -->
+    <div class="post-card">
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+        <div class="meta">
+            <span>{{ post.created_at|date:"d.m.Y H:i" }}</span> &bull;
+            <span>{{ post.created_by.get_full_name }} (@{{ post.created_by.username }})</span>
+        </div>
+        <div class="actions">
+            <a href="{% url 'post_edit' post.id %}" class="btn-edit">Tahrirlash</a>
+            <a href="{% url 'post_delete' post.id %}" class="btn-delete">Oʻchirish</a>
+        </div>
+    </div>
+
+    <!-- Izohlar ro'yxati -->
+    <div class="comment-box">
+        <h3>Izohlar</h3>
+        {% for comment in comments %}
+            <div class="comment-item">
+                <p>{{ comment.comment_message }}</p>
+                <span class="comment-date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+            </div>
+        {% empty %}
+            <p style="color: #64748B; font-size: 0.9rem;">Hozircha izohlar mavjud emas.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Izoh yozish formasi -->
+    <form method="post">
+        <h3>Izoh qoldirish</h3>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Saqlash</button>
+    </form>
+</div>
+
+</body>
+</html>
